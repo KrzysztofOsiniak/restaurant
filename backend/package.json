@@ -1,0 +1,23 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "backend",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "tsc && node index.js"
+  },
+  "author": "Krzysztof Osiniak krzysztofosiniak37@gmail.com",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.21.0",
+    "graphql-http": "^1.22.1",
+    "helmet": "^7.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.7.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0"
+  }
+}
