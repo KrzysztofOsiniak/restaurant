@@ -6,7 +6,7 @@ import './App.css'
 function App() {
   const [count, setCount] = useState(0);
 
-  fetch('http://localhost:8080/graphql', {
+  fetch('http://localhost:5173/graphql', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
