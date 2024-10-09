@@ -1,7 +1,9 @@
 import express from "express";
 import { createServer } from "http";
 import helmet from 'helmet';
-import { createHandler } from "graphql-http/lib/use/express";
+import { ApolloServer } from '@apollo/server';
+import { expressMiddleware } from '@apollo/server/express4';
+import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
 import mongoose from 'mongoose';
 
 const app = express();
@@ -19,20 +21,24 @@ app.get('*', (_req, res) => {
 });
 
 import type { Request } from 'express';
-const context = (req: Request) => {
-    return "passed context"
+const context = async () => {
+    return {token: "passed context"}
 };
+type myContext = {
+    token: string
+}
 
 import { schema, resolvers } from "./graphql/index.js";
 
-app.all(
-    "/graphql",
-    createHandler({
-        schema: schema,
-        rootValue: resolvers,
-        // @ts-ignore: lack of type documentation
-        context: context,
-    })
-);
+const server = new ApolloServer<myContext>({
+    typeDefs: schema,
+    resolvers: resolvers,
+    plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+});
+await server.start();
+
+app.all("/graphql", expressMiddleware(server, {
+    context: context
+}));
 
 httpServer.listen(port, () => console.log(`running on http://localhost:${port}`));

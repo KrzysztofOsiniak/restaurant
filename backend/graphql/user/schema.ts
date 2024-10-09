@@ -1,4 +1,4 @@
-const userSchema = `
+const userSchema = `#graphql
     type Query {
         hello: String
     }
