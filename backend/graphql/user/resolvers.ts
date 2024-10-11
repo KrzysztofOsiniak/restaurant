@@ -2,9 +2,9 @@ import User from "../../models/user.js";
 
 const userResolvers = {
     Query: {
-        async hello(parent:any, args: any, context: any) {
+        async register(parent: any, args: any, context: any) {
             console.log("Called graphql");
-            console.log(context);
+            console.log(args);
             const foundUser = await User.find({name: "user1"});
 
             if(!foundUser[0]) {

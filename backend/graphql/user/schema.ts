@@ -1,6 +1,6 @@
 const userSchema = `#graphql
     type Query {
-        hello: String
+        register(name: String): String
     }
 `;
 
