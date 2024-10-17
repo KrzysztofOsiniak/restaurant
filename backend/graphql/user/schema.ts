@@ -1,6 +1,9 @@
 const userSchema = `#graphql
     type Query {
-        register(name: String): String
+        login(username: String, password: String): String
+    },
+    type Mutation {
+        signup(username: String, password: String): String
     }
 `;
 

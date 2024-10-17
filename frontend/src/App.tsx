@@ -11,7 +11,7 @@ function App() {
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({query: "{ register }", variables: {name: "idk"}})
+    body: JSON.stringify({query: `{ signup(username: "idk")}`})
   })
   .then(res => res.json())
   .then(res => console.log(res.data.hello));

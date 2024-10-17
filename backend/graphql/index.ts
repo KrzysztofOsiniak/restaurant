@@ -1,9 +1,9 @@
 import { buildSchema } from "graphql";
 
 import userSchema from "./user/schema.js";
-import userResolvers from "./user/resolvers.js";
+import { userQuery, userMutation } from "./user/resolvers.js";
 
 const schema = buildSchema(userSchema);
-const resolvers = { ...userResolvers };
+const resolvers = { Query: {...userQuery}, Mutation: {...userMutation} };
 
 export { schema, resolvers };
