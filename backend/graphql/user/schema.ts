@@ -1,9 +1,13 @@
 const userSchema = `#graphql
     type Query {
-        login(username: String, password: String): String
+        login(username: String!, password: String!): User
     },
     type Mutation {
-        signup(username: String, password: String): String
+        signup(username: String!, password: String!): User
+    }
+    type User {
+        username: String
+        password: String
     }
 `;
 

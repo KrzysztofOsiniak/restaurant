@@ -4,15 +4,13 @@ const userQuery = {
     async login(parent: any, args: any, context: any) {
         console.log("Called graphql");
         console.log(args);
-        const foundUser = await User.find({name: "user1"});
+        const foundUser = await User.findOne({username: "user1", password: "123"});
 
-        if(!foundUser[0]) {
-            const user = new User({name: "user1"});
-            await user.save().then(() => console.log("saved")); 
-            return user.name;
+        if(!foundUser) {
+            return null;
         }
 
-        return foundUser[0].name;
+        return {username: foundUser.username, password: foundUser.password};
     }
 };
 
@@ -20,15 +18,15 @@ const userMutation = {
     async signup(parent: any, args: any, context: any) {
         console.log("Called graphql");
         console.log(args);
-        const foundUser = await User.find({name: "user1"});
+        const foundUser = await User.findOne({username: "user1", password: "123"});
 
-        if(!foundUser[0]) {
-            const user = new User({name: "user1"});
+        if(!foundUser) {
+            const user = new User({username: "user1", password: "123"});
             await user.save().then(() => console.log("saved")); 
-            return user.name;
+            return {username: user.username, password: user.password};
         }
 
-        return foundUser[0].name;
+        return null;
     },
 };
 

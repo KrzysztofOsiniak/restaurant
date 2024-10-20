@@ -1,21 +1,45 @@
-import { useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
+import { gql, useMutation } from '@apollo/client';
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 
+const signupMutation = gql`
+  mutation signup($username: String!, $password: String!) {
+    signup(username: $username, password: $password) {
+      username
+      password
+    }
+  }
+`
+
 function App() {
   const [count, setCount] = useState(0);
 
-  fetch('http://localhost:5173/graphql', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({query: `{ signup(username: "idk")}`})
-  })
-  .then(res => res.json())
-  .then(res => console.log(res.data.hello));
+  const [signup, { loading, error }] = useMutation(signupMutation);
   
+  const isMounted = useRef(false);
+
+  useEffect(() => {
+    if(!isMounted.current) {
+      
+      if (loading) console.log('Submitting...');
+
+      if (error) console.log(`Submission error! ${error.message}`);
+      isMounted.current = true;
+      signup({ variables: { username: "idk", password: "123"} }).then(() => {
+        fetch('http://localhost:5173/graphql', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({query: `{ login(username: "idk", password: "123") {username, password,} }`})
+        })
+        .then(res => res.json())
+        .then(res => console.log(res.data));
+      });
+    };
+  });
 
   return (
     <>
